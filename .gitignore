@@ -1,0 +1,19 @@
+node_modules
+dist
+.DS_Store
+
+# sound files you copy in yourself stay on this machine
+public/sounds/*
+!public/sounds/pack.json
+
+# texture files you copy in yourself stay on this machine
+public/textures/*
+!public/textures/pack.json
+
+# API keys stay on this machine
+.env
+.env.*
+
+# working notes between sessions, kept on this machine
+DEVAM.md
+server/data/
