@@ -50,6 +50,7 @@ const LOCATIONS = [
   { name: 'Sagrada Família', sub: 'Barcelona · the grid of the Eixample', lat: 41.4036, lon: 2.1744, google: true },
   { name: 'Tel Aviv', sub: 'Dizengoff Square · the round plaza and its fountain', lat: 32.0779, lon: 34.7741, google: true },
   { name: 'Shibuya', sub: 'Tokyo · by the station and the scramble crossing', lat: 35.6595, lon: 139.7005, google: true },
+  { name: 'Leh', sub: 'Leh Ladakh', lat: 34.07759038519683, lon: 77.83255089863327, google: true },
 ];
 const samePlace = (a, b) => Math.abs(a.lat - b.lat) < 1e-4 && Math.abs(a.lon - b.lon) < 1e-4;
 

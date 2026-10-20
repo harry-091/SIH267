@@ -218,7 +218,42 @@ export function createServer({ dataDir = path.join(HERE, 'data'), distDir = path
   const locks = new Map(); // username -> { fails, until }
 
   const D = db.d;
+  // Default trainer credentials
+const DEFAULT_TRAINER_USERNAME = 'trainer';
+const DEFAULT_TRAINER_PASSWORD = 'Trainer@123';
   const userByName = (u) => Object.values(D.users).find((x) => x.username === u);
+  async function ensureDefaultTrainer() {
+  let trainer = userByName(DEFAULT_TRAINER_USERNAME);
+
+  // Create the account only if it doesn't exist.
+  if (!trainer) {
+    const unit = {
+      id: id(6),
+      name: 'Default Training Unit',
+      joinCode: joinCode(),
+      createdAt: new Date().toISOString(),
+    };
+
+    D.units[unit.id] = unit;
+
+    trainer = {
+      id: id(6),
+      username: DEFAULT_TRAINER_USERNAME,
+      name: 'Default Trainer',
+      role: 'instructor',
+      unitId: unit.id,
+      pw: await hashPassword(DEFAULT_TRAINER_PASSWORD),
+      createdAt: new Date().toISOString(),
+    };
+
+    D.users[trainer.id] = trainer;
+    db.flush();
+
+    console.log('Default trainer account created.');
+    console.log('Username: trainer');
+    console.log('Password: Trainer@123');
+  }
+}
   const sessionsOf = (uid) => D.sessions.filter((s) => s.userId === uid);
   const sums = (uid) => sessionsOf(uid).map(summary).sort((a, b) => a.at.localeCompare(b.at));
 
@@ -519,21 +554,35 @@ export function createServer({ dataDir = path.join(HERE, 'data'), distDir = path
   server.instructorCode = code;
   server.db = db;
   server.on('close', () => db.flush());
-  return server;
+server.ensureDefaultTrainer = ensureDefaultTrainer;
+return server;
 }
 
 // run directly: node server/server.js
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
   const port = +process.env.PORT || 3001;
-  const server = createServer({ secureCookie: process.env.SECURE_COOKIE === '1' });
-  server.listen(port, process.env.HOST || '0.0.0.0', () => {
-    console.log(`Training server on http://localhost:${port}   (game: /, dashboard: /dashboard.html)`);
-    console.log(`Instructor registration code: ${server.instructorCode}`);
+
+  const server = createServer({
+    secureCookie: process.env.SECURE_COOKIE === '1',
   });
+
+  server.ensureDefaultTrainer()
+    .then(() => {
+      server.listen(port, process.env.HOST || '0.0.0.0', () => {
+        console.log(`Training server running on port ${port}`);
+        console.log('Default trainer username: trainer');
+      });
+    })
+    .catch((err) => {
+      console.error('Failed to initialize default trainer:', err);
+      process.exit(1);
+    });
+
   const stop = () => {
     server.db.flush();
     process.exit(0);
   };
+
   process.on('SIGINT', stop);
   process.on('SIGTERM', stop);
 }

@@ -18,14 +18,14 @@ const CELL = 4; // texels per letter cell
 const DEPTH = 5; // texels of dark stone under each letter, the logo's thickness
 const EDGE = 1; // black outline
 
-const SPLASHES = ['On real streets!', 'Break the asphalt too!', 'From photo to photo!', 'Mind the TNT!', 'There is stone under it!'];
+const SPLASHES = ['On real streets!', 'Knock the drones!', 'Technoblade Never Dies!', 'Train Soldier!', 'Listen to your Instructor!'];
 
 const noise = (x, y) => ((Math.imul(x, 0x9e3779b1) ^ Math.imul(y, 0x85ebca6b) ^ (x * y)) >>> 0) % 997 / 997;
 
 // Letters cut from cobbled stone, lit from above, standing on a darker side face. Every stroke
 // is two cells thick (the thin letters above, smeared one cell right and one down): a heavy,
 // blocky word, written as one.
-export function drawLogo(canvas, text = 'DRONE SIMULATOR') {
+export function drawLogo(canvas, text = 'GEAR FORGE') {
   const GH = 8; // a bold letter's rows: the seven above and the smear
   // where each letter starts: a bold letter is one cell wider than written, and one cell apart
   const starts = [];

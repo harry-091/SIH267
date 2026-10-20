@@ -57,7 +57,7 @@ const WORDS = {
   'Google Street View is on': ['Google Street View açık', 'Google Street View activado'],
   'On real streets!': ['Gerçek sokaklarda!', '¡En calles reales!'],
   'Break the asphalt too!': ['Asfaltı da kır!', '¡Rompe también el asfalto!'],
-  'From photo to photo!': ['Fotoğraftan fotoğrafa!', '¡De foto en foto!'],
+  'Technoblade Never Dies!': ['Fotoğraftan fotoğrafa!', '¡De foto en foto!'],
   'Mind the TNT!': ['TNT\'ye dikkat!', '¡Cuidado con la TNT!'],
   'There is stone under it!': ['Altından taş çıkar!', '¡Debajo hay piedra!'],
   'You died!': ['Öldün!', '¡Has muerto!'],
